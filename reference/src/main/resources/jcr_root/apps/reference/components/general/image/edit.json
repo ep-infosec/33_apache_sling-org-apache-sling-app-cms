@@ -1,0 +1,65 @@
+ {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "sling-cms/components/editor/slingform",
+    "button": "Save Image",
+    "fields": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "sling-cms/components/general/container",
+        "src": {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "sling-cms/components/editor/fields/path",
+            "basePath": "/content",
+            "type": "file",
+            "label": "Image Source",
+            "name": "src",
+            "titleProperty": "jcr:content/jcr:title",
+            "required": true,
+            "events": {
+                "input": "const srcValue = document.querySelector('input[name=src]').value;\r\nconst transformationField = document.querySelector('select[name=transformation]').closest('.field');\r\ntransformationField.disabled=true;\r\nconst url = `${transformationField.dataset.path}.html${location.pathname.replace('\/cms\/editor\/edit.html','')}?src=${srcValue}`;\r\nfetch(url).then(res => res.text()).then(html => {\r\n    const div = document.createElement('div');\r\n    div.innerHTML = html;    \r\n    transformationField.replaceWith(div.querySelector('.field'));\r\n});",
+                "load": "const srcValue = document.querySelector('input[name=src]').value;\r\nconst transformationField = document.querySelector('select[name=transformation]').closest('.field');\r\ntransformationField.disabled=true;\r\nconst url = `${transformationField.dataset.path}.html${location.pathname.replace('\/cms\/editor\/edit.html','')}?src=${srcValue}`;\r\nfetch(url).then(res => res.text()).then(html => {\r\n    const div = document.createElement('div');\r\n    div.innerHTML = html;    \r\n    transformationField.replaceWith(div.querySelector('.field'));\r\n});"
+            }
+        },
+        "transformation": {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "sling-cms/components/editor/fields/select",
+            "label": "Transformation",
+            "name": "transformation",
+            "required": false,
+            "optionsScript": "/apps/reference/components/general/image/transformations.jsp"
+        },
+        "transformationFormat": {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "sling-cms/components/editor/fields/select",
+            "label": "Transformation Format",
+            "name": "transformationFormat",
+            "required": false,
+            "options": {
+                "png": {
+                    "jcr:primaryType": "nt:unstructured",
+                    "label": "PNG",
+                    "value": "png"
+                },
+                "jpg": {
+                    "jcr:primaryType": "nt:unstructured",
+                    "label": "Jpeg",
+                    "value": "jpeg"
+                }
+            }
+        },
+        "alt": {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "sling-cms/components/editor/fields/text",
+            "label": "Alt Text",
+            "name": "alt",
+            "required": true
+        },
+        "imageClass": {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "sling-cms/components/editor/fields/select",
+            "label": "Image Class",
+            "name": "imageClass",
+            "required": true,
+            "optionsScript": "/apps/reference/components/general/image/options.jsp"
+        }
+    }
+}
